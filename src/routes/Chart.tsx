@@ -35,13 +35,35 @@ function Chart({ coinId }: ChartProps) {
         "Loading chart..."
       ) : (
         <ApexCharts
-          type="line"
+          type="candlestick"
           series={[
             {
-              name: "Price",
-              data: data ? data.map((price) => parseFloat(price.close)) : [],
+              data: data?.map((price) => {
+                return [
+                  price.time_close,
+                  parseFloat(price.open),
+                  parseFloat(price.high),
+                  parseFloat(price.low),
+                  parseFloat(price.close),
+                ];
+              }) as [],
             },
           ]}
+          options={{
+            theme: { mode: "dark" },
+            chart: {
+              height: 350,
+            },
+
+            xaxis: {
+              type: "datetime",
+            },
+            yaxis: {
+              tooltip: {
+                enabled: true,
+              },
+            },
+          }}
         />
       )}
     </div>

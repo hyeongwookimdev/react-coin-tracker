@@ -80,7 +80,6 @@ function Price({ coinId }: PriceProps) {
                   2,
                   "0"
                 )}
-                {` :`}
               </div>
               <div>${price.close}</div>
               <div>${price.high}</div>

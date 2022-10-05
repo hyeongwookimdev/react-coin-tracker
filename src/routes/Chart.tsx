@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoinHistory } from "../api";
 import ApexCharts from "react-apexcharts";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 interface ChartProps {
   coinId: string;
@@ -16,13 +18,9 @@ interface IHistorical {
   volume: string;
   market_cap: number;
 }
-/*
-니꼬샘이 제공해준 https://ohlcv-api.nomadcoders.workers.dev API는 close 데이터가 string이기 때문에 parseFloat를 통해 형 변환을 시켜줘야 합니다!
-
-data: data?.map((price) => parseFloat(price.close)) ?? []
-*/
 
 function Chart({ coinId }: ChartProps) {
+  const isDark = useRecoilValue(isDarkAtom);
   const { isLoading, data } = useQuery<IHistorical[]>(
     ["ohlcv", coinId],
     () => fetchCoinHistory(coinId),
@@ -50,7 +48,7 @@ function Chart({ coinId }: ChartProps) {
             },
           ]}
           options={{
-            theme: { mode: "dark" },
+            theme: { mode: isDark ? "dark" : "light" },
             chart: {
               height: 350,
               toolbar: {

@@ -3,6 +3,15 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
 import { Helmet } from "react-helmet";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  solid,
+  regular,
+  brands,
+  icon,
+} from "@fortawesome/fontawesome-svg-core/import.macro";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -20,10 +29,11 @@ const Header = styled.header`
 const ConisList = styled.ul``;
 
 const Coin = styled.li`
-  background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  background-color: ${(props) => props.theme.cardBgColor};
+  color: ${(props) => props.theme.textColor};
   margin-bottom: 10px;
   border-radius: 15px;
+  border: 1px solid white;
   a {
     display: flex;
     align-items: center;
@@ -63,7 +73,11 @@ interface ICoin {
   type: string;
 }
 
-function Coins() {
+interface ICoinsProps {}
+
+function Coins({}: ICoinsProps) {
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
 
   return (
@@ -73,6 +87,9 @@ function Coins() {
       </Helmet>
       <Header>
         <Title>Coin Tracker</Title>
+        <button onClick={toggleDarkAtom}>
+          <FontAwesomeIcon icon={solid("circle-half-stroke")} />
+        </button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

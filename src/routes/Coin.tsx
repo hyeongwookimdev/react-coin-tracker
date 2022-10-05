@@ -12,6 +12,13 @@ import Chart from "./Chart";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { Helmet } from "react-helmet";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  solid,
+  regular,
+  brands,
+  icon,
+} from "@fortawesome/fontawesome-svg-core/import.macro";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -22,7 +29,7 @@ const Container = styled.div`
 const Header = styled.header`
   height: 10vh;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 
@@ -77,6 +84,20 @@ const Tab = styled.span<{ isActive: boolean }>`
     props.isActive ? props.theme.accentColor : props.theme.textColor};
   a {
     display: block;
+  }
+`;
+
+const Btn = styled.div`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+
+  a {
+    display: flex;
+    align-items: center;
   }
 `;
 
@@ -161,10 +182,6 @@ function Coin() {
     }
   );
 
-  /*
-  https://ohlcv-api.nomadcoders.workers.dev?coinId=${coinId}
-  */
-
   const loading = infoLoading || tickersLoading;
 
   return (
@@ -175,9 +192,17 @@ function Coin() {
         </title>
       </Helmet>
       <Header>
+        <Btn>
+          <Link to={`/`}>
+            <FontAwesomeIcon icon={solid("arrow-left")} />
+          </Link>
+        </Btn>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
+        <Btn>
+          <FontAwesomeIcon icon={solid("circle-half-stroke")} />
+        </Btn>
       </Header>
       {loading ? (
         <Loader>Loading...</Loader>

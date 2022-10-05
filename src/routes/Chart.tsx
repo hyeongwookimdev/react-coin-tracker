@@ -53,14 +53,31 @@ function Chart({ coinId }: ChartProps) {
             theme: { mode: "dark" },
             chart: {
               height: 350,
+              toolbar: {
+                show: false,
+              },
+              background: "transparent",
             },
-
             xaxis: {
+              axisBorder: { show: false },
+              axisTicks: { show: false },
+              labels: { show: false },
               type: "datetime",
+              categories: data?.map((price) =>
+                new Date(price.time_close * 1000).toISOString()
+              ),
             },
             yaxis: {
               tooltip: {
                 enabled: true,
+              },
+            },
+            plotOptions: {
+              candlestick: {
+                colors: {
+                  upward: "#e84118",
+                  downward: "#00a8ff",
+                },
               },
             },
           }}

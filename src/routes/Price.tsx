@@ -10,15 +10,19 @@ const PriceInfoList = styled.ul`
 const PriceInfo = styled.li`
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid white;
-  padding: 5px 0px;
+
+  padding: 5px 10px;
+  background-color: white;
+  color: black;
+  margin: 5px;
+  border-radius: 10px;
   div {
   }
 `;
 const PriceInfoTitle = styled.div`
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid white;
+  padding: 5px 12.5px;
   font-weight: 600;
   font-size: 18px;
   div:nth-child(3) {

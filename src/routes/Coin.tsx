@@ -19,6 +19,8 @@ import {
   brands,
   icon,
 } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { useSetRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -46,7 +48,7 @@ const Loader = styled.span`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.cardBgColor};
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -77,7 +79,7 @@ const Tab = styled.span<{ isActive: boolean }>`
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 400;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.cardBgColor};
   padding: 7px 0px;
   border-radius: 10px;
   color: ${(props) =>
@@ -88,12 +90,13 @@ const Tab = styled.span<{ isActive: boolean }>`
 `;
 
 const Btn = styled.div`
-  width: 40px;
-  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 24px;
+  font-size: 35px;
+  color: ${(props) => props.theme.textColor};
+  background-color: ${(props) => props.theme.bgColor};
+  border: none;
 
   a {
     display: flex;
@@ -171,6 +174,8 @@ function Coin({}: ICoinProps) {
   const { state } = useLocation<RouteState>();
   const priceMatch = useRouteMatch("/:coinId/price");
   const chartMatch = useRouteMatch("/:coinId/chart");
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
 
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
@@ -195,14 +200,14 @@ function Coin({}: ICoinProps) {
       </Helmet>
       <Header>
         <Btn>
-          <Link to={`/`}>
+          <Link to={`/react-coin-tracker`}>
             <FontAwesomeIcon icon={solid("arrow-left")} />
           </Link>
         </Btn>
         <Title>
           {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
         </Title>
-        <Btn>
+        <Btn onClick={toggleDarkAtom}>
           <FontAwesomeIcon icon={solid("circle-half-stroke")} />
         </Btn>
       </Header>

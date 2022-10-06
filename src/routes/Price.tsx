@@ -1,19 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoinPrice } from "../api";
 import styled from "styled-components";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const PriceInfoList = styled.ul`
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.cardBgColor};
   padding: 10px 20px;
   border-radius: 10px;
 `;
 const PriceInfo = styled.li`
   display: flex;
   justify-content: space-between;
-
   padding: 5px 10px;
-  background-color: white;
-  color: black;
+  background-color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
   margin: 5px;
   border-radius: 10px;
   div {
@@ -26,10 +27,10 @@ const PriceInfoTitle = styled.div`
   font-weight: 600;
   font-size: 18px;
   div:nth-child(3) {
-    color: #e84118;
+    color: #ff4757;
   }
   div:last-child {
-    color: #00a8ff;
+    color: #5352ed;
   }
 `;
 
@@ -52,6 +53,7 @@ function Price({ coinId }: PriceProps) {
   const { isLoading, data } = useQuery<IPrice[]>(["CoinPrice", coinId], () =>
     fetchCoinPrice(coinId)
   );
+  const isDark = useRecoilValue(isDarkAtom);
   return (
     <div>
       {isLoading ? (
